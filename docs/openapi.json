@@ -826,6 +826,129 @@
 					}
 				]
 			}
+		},
+		"/auth/login": {
+			"post": {
+				"tags": [
+					"Security"
+				],
+				"operationId": "login",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoginReqDto"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "Login successful",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LoginResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Username or password empty"
+					},
+					"401": {
+						"description": "Invalid credentials"
+					},
+					"500": {
+						"description": "Database error"
+					}
+				}
+			}
+		},
+		"/auth/logout": {
+			"post": {
+				"tags": [
+					"Security"
+				],
+				"summary": "Logout user",
+				"operationId": "logout",
+				"responses": {
+					"204": {
+						"description": "Logged out"
+					},
+					"401": {
+						"description": "Unauthorized"
+					}
+				},
+				"security": [
+					{
+						"bearer_auth": []
+					}
+				]
+			}
+		},
+		"/auth/refresh": {
+			"post": {
+				"tags": [
+					"Security"
+				],
+				"summary": "Refresh JWT token",
+				"operationId": "refresh_token",
+				"responses": {
+					"200": {
+						"description": "Token refreshed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LoginResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					}
+				},
+				"security": [
+					{
+						"bearer_auth": []
+					}
+				]
+			}
+		},
+		"/auth/register": {
+			"post": {
+				"tags": [
+					"Security"
+				],
+				"summary": "User registration handler",
+				"operationId": "register",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserReq"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"201": {
+						"description": "User registered successfully"
+					},
+					"400": {
+						"description": "Username or password empty"
+					},
+					"409": {
+						"description": "Username already taken"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
 		}
 	},
 	"components": {
@@ -1270,6 +1393,38 @@
 					"unpaid"
 				]
 			},
+			"LoginReqDto": {
+				"type": "object",
+				"required": [
+					"username",
+					"password"
+				],
+				"properties": {
+					"password": {
+						"type": "string",
+						"example": "supersecret123"
+					},
+					"username": {
+						"type": "string",
+						"example": "john_doe"
+					}
+				}
+			},
+			"LoginResponse": {
+				"type": "object",
+				"required": [
+					"access_token",
+					"refresh_token"
+				],
+				"properties": {
+					"access_token": {
+						"type": "string"
+					},
+					"refresh_token": {
+						"type": "string"
+					}
+				}
+			},
 			"PaginatedPayrollResponse": {
 				"type": "object",
 				"required": [
@@ -1371,6 +1526,13 @@
 					}
 				}
 			},
+			"TokenType": {
+				"type": "string",
+				"enum": [
+					"Access",
+					"Refresh"
+				]
+			},
 			"UpdateEmployee": {
 				"type": "object",
 				"required": [
@@ -1438,6 +1600,30 @@
 						"nullable": true
 					}
 				}
+			},
+			"UserReq": {
+				"type": "object",
+				"required": [
+					"username",
+					"password",
+					"role_id"
+				],
+				"properties": {
+					"password": {
+						"type": "string",
+						"example": "supersecret123"
+					},
+					"role_id": {
+						"type": "integer",
+						"format": "int32",
+						"example": 1,
+						"minimum": 0
+					},
+					"username": {
+						"type": "string",
+						"example": "john_doe"
+					}
+				}
 			}
 		}
 	},
@@ -1457,6 +1643,10 @@
 		{
 			"name": "Payroll",
 			"description": "Payroll management APIs"
+		},
+		{
+			"name": "Security",
+			"description": "Security: User authentication and authorization"
 		}
 	]
 }
