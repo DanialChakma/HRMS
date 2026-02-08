@@ -1262,6 +1262,14 @@
           }
         }
       },
+      "LeaveType": {
+        "type": "string",
+        "enum": [
+          "annual",
+          "sick",
+          "unpaid"
+        ]
+      },
       "PaginatedPayrollResponse": {
         "type": "object",
         "required": [
