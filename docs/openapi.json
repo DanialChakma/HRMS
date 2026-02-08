@@ -878,6 +878,29 @@
           }
         }
       },
+      "CreateLeave": {
+        "type": "object",
+        "required": [
+          "start_date",
+          "end_date",
+          "leave_type"
+        ],
+        "properties": {
+          "end_date": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-01-01"
+          },
+          "leave_type": {
+            "$ref": "#/components/schemas/LeaveType"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-01-01"
+          }
+        }
+      },
       "CreatePayroll": {
         "type": "object",
         "required": [
