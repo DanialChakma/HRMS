@@ -8,6 +8,24 @@
 		},
 		"version": "1.0.0"
 	},
+	"servers": [
+		{
+			"url": "http://localhost:3000",
+			"description": "Local development"
+		},
+		{
+			"url": "https://dev.hrm.co.uk",
+			"description": "Development"
+		},
+		{
+			"url": "https://preprod.hrm.co.uk",
+			"description": "Pre-production"
+		},
+		{
+			"url": "https://hrm.co.uk",
+			"description": "Production"
+		}
+	],
 	"paths": {
 		"/api/v1/attendance/check-in": {
 			"post": {
@@ -1624,6 +1642,12 @@
 						"example": "john_doe"
 					}
 				}
+			}
+		},
+		"securitySchemes": {
+			"bearer_auth": {
+				"type": "http",
+				"scheme": "bearer"
 			}
 		}
 	},
